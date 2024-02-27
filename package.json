@@ -1,0 +1,7 @@
+{
+  "name": "get-dir-code",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@types/node": "^20.11.20"
+  }
+}
