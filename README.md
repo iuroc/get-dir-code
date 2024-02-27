@@ -30,6 +30,8 @@ const codeData = getCode(targetDir, exts)
 
 ### 排除项
 
+支持 `.gitignore` 规则，详见 [ignore](https://github.com/kaelzhang/node-ignore)。
+
 ```typescript
 const exclude = ['package-lock.json', 'package.json', 'LICENSE', '.gitignore']
 const codeData = getCode(targetDir, [], exclude)
