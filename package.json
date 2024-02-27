@@ -1,7 +1,12 @@
 {
   "name": "get-dir-code",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "devDependencies": {
     "@types/node": "^20.11.20"
+  },
+  "main": "js/getCode.js",
+  "types": "src/getCode.ts",
+  "dependencies": {
+    "ignore": "^5.3.1"
   }
 }
