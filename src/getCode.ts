@@ -8,13 +8,13 @@ import ignore from 'ignore'
  * @param exclude 排除项，使用 `.gitignore` 规则，默认值 `['package-lock.json', 'package.json', 'LICENSE', '.gitignore']`
  */
 export const getCode = (
-    dir: string,
+    rootDir: string,
     exts: string[] = [],
     exclude: string[] = []
 ): { code: string, line: number } => {
     if (exts.length == 0) exts = ['.js', '.ts', '.css', '.sass', '.scss', '.html', '.sql', '.json']
     if (exclude.length == 0) exclude = ['package-lock.json', 'package.json', 'LICENSE', '.gitignore']
-    const files = getFiles(dir, exts, exclude)
+    const files = getFiles(rootDir, exts, exclude)
     let code = ''
     let line = 0
     files.forEach(file => {

@@ -9,14 +9,14 @@ var ignore_1 = require("ignore");
  * @param exts 需要筛选的文件后缀，默认值 `['.js', '.ts', '.css', '.sass', '.scss', '.html', '.sql', '.json']`
  * @param exclude 排除项，使用 `.gitignore` 规则，默认值 `['package-lock.json', 'package.json', 'LICENSE', '.gitignore']`
  */
-var getCode = function (dir, exts, exclude) {
+var getCode = function (rootDir, exts, exclude) {
     if (exts === void 0) { exts = []; }
     if (exclude === void 0) { exclude = []; }
     if (exts.length == 0)
         exts = ['.js', '.ts', '.css', '.sass', '.scss', '.html', '.sql', '.json'];
     if (exclude.length == 0)
         exclude = ['package-lock.json', 'package.json', 'LICENSE', '.gitignore'];
-    var files = (0, exports.getFiles)(dir, exts, exclude);
+    var files = (0, exports.getFiles)(rootDir, exts, exclude);
     var code = '';
     var line = 0;
     files.forEach(function (file) {
