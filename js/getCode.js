@@ -15,7 +15,7 @@ var getCode = function (rootDir, exts, exclude) {
     if (exts.length == 0)
         exts = ['.js', '.ts', '.css', '.sass', '.scss', '.html', '.sql', '.json'];
     if (exclude.length == 0)
-        exclude = ['package-lock.json', 'package.json', 'LICENSE', '.gitignore'];
+        exclude = ['package-lock.json', 'package.json', 'LICENSE', '.gitignore', '.git/', 'node_modules/'];
     var files = (0, exports.getFiles)(rootDir, exts, exclude);
     var code = '';
     var line = 0;
@@ -44,6 +44,7 @@ exports.removeSpace = removeSpace;
 var getFiles = function (rootDir, exts, exclude) {
     if (exts === void 0) { exts = []; }
     if (exclude === void 0) { exclude = []; }
+    rootDir = (0, path_1.resolve)(rootDir);
     var stack = [rootDir];
     var files = [];
     var ig = (0, ignore_1.default)().add(exclude);
@@ -52,7 +53,7 @@ var getFiles = function (rootDir, exts, exclude) {
         for (var _i = 0, _a = (0, fs_1.readdirSync)(thisDir); _i < _a.length; _i++) {
             var name_1 = _a[_i];
             var subPath = (0, path_1.join)(thisDir, name_1);
-            if (ig.ignores(subPath.slice(4)))
+            if (ig.ignores(subPath.slice(rootDir.length + 1)))
                 continue;
             else if ((0, fs_1.statSync)(subPath).isDirectory())
                 stack.push(subPath);

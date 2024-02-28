@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync, statSync } from 'fs'
-import { extname, join } from 'path'
+import { extname, join, resolve } from 'path'
 import ignore from 'ignore'
 
 /** 从指定目录中提取代码并合并为一个字符串
@@ -13,7 +13,7 @@ export const getCode = (
     exclude: string[] = []
 ): { code: string, line: number } => {
     if (exts.length == 0) exts = ['.js', '.ts', '.css', '.sass', '.scss', '.html', '.sql', '.json']
-    if (exclude.length == 0) exclude = ['package-lock.json', 'package.json', 'LICENSE', '.gitignore']
+    if (exclude.length == 0) exclude = ['package-lock.json', 'package.json', 'LICENSE', '.gitignore', '.git/', 'node_modules/']
     const files = getFiles(rootDir, exts, exclude)
     let code = ''
     let line = 0
@@ -44,6 +44,7 @@ export const getFiles = (
     exts: string[] = [],
     exclude: string[] = [],
 ): string[] => {
+    rootDir = resolve(rootDir)
     const stack: string[] = [rootDir]
     const files: string[] = []
     const ig = ignore().add(exclude)
@@ -51,7 +52,7 @@ export const getFiles = (
         const thisDir = stack.pop() as string
         for (const name of readdirSync(thisDir)) {
             const subPath = join(thisDir, name)
-            if (ig.ignores(subPath.slice(4))) continue
+            if (ig.ignores(subPath.slice(rootDir.length + 1))) continue
             else if (statSync(subPath).isDirectory()) stack.push(subPath)
             else if (!exts.includes(extname(subPath))) continue
             else files.push(subPath)
