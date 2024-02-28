@@ -1,6 +1,10 @@
-import { getCode } from './getCode'
+import { getCode, getFiles } from './getCode'
 
-const targetDir = 'C:/Users/ponco/Downloads/tag-collect-master/tag-collect-master'
-const data = getCode(targetDir)
+const targetDir = '../2.27.2'
+const data = getCode(targetDir, {
+    log: true,
+    exts: [],
+    exclude: ['main.ts', 'node_modules']
+})
 
 console.log(data.line, data.code.split('\n').length)

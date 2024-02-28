@@ -4,19 +4,17 @@ exports.getFiles = exports.removeSpace = exports.getCode = void 0;
 var fs_1 = require("fs");
 var path_1 = require("path");
 var ignore_1 = require("ignore");
-/** 从指定目录中提取代码并合并为一个字符串
- * @param dir 需要提取的根目录
- * @param exts 需要筛选的文件后缀，默认值 `['.js', '.ts', '.css', '.sass', '.scss', '.html', '.sql', '.json']`
- * @param exclude 排除项，使用 `.gitignore` 规则，默认值 `['package-lock.json', 'package.json', 'LICENSE', '.gitignore']`
- */
-var getCode = function (rootDir, exts, exclude) {
-    if (exts === void 0) { exts = []; }
-    if (exclude === void 0) { exclude = []; }
-    if (exts.length == 0)
-        exts = ['.js', '.ts', '.css', '.sass', '.scss', '.html', '.sql', '.json'];
-    if (exclude.length == 0)
-        exclude = ['package-lock.json', 'package.json', 'LICENSE', '.gitignore', '.git/', 'node_modules/'];
-    var files = (0, exports.getFiles)(rootDir, exts, exclude);
+/** 从指定目录中提取代码并合并为一个字符串 */
+var getCode = function (
+/** 需要提取的根目录 */
+rootDir, config) {
+    if (!config)
+        config = {};
+    if (!config.exts || config.exts.length == 0)
+        config.exts = ['.js', '.ts', '.css', '.sass', '.scss', '.html', '.sql', '.json'];
+    if (!config.exclude || config.exclude.length == 0)
+        config.exclude = ['package-lock.json', 'package.json', 'LICENSE', '.gitignore', '.git/', 'node_modules/', 'tsconfig.json', 'vite.config.*'];
+    var files = (0, exports.getFiles)(rootDir, config.exts, config.exclude);
     var code = '';
     var line = 0;
     files.forEach(function (file) {
@@ -24,7 +22,8 @@ var getCode = function (rootDir, exts, exclude) {
         var thisLine = content.split('\n').length;
         code += content + '\n';
         line += thisLine;
-        console.log(thisLine, '\t', file);
+        if (config === null || config === void 0 ? void 0 : config.log)
+            console.log(thisLine, '\t', file);
     });
     code = code.trim();
     return { code: code, line: line };
@@ -57,7 +56,7 @@ var getFiles = function (rootDir, exts, exclude) {
                 continue;
             else if ((0, fs_1.statSync)(subPath).isDirectory())
                 stack.push(subPath);
-            else if (!exts.includes((0, path_1.extname)(subPath)))
+            else if (exts.length > 0 && !exts.includes((0, path_1.extname)(subPath)))
                 continue;
             else
                 files.push(subPath);
