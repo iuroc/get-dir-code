@@ -1,6 +1,6 @@
 {
   "name": "get-dir-code",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "devDependencies": {
     "@types/node": "^20.11.20"
   },
