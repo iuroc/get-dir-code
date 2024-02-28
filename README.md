@@ -25,7 +25,7 @@ const codeLine = codeData.line
 
 ```typescript
 const exts = ['.js', '.ts', '.css', '.sass', '.scss', '.html', '.sql', '.json']
-const codeData = getCode(targetDir, exts)
+const codeData = getCode(targetDir, { exts })
 ```
 
 ### 排除项
@@ -34,7 +34,13 @@ const codeData = getCode(targetDir, exts)
 
 ```typescript
 const exclude = ['package-lock.json', 'package.json', 'LICENSE', '.gitignore']
-const codeData = getCode(targetDir, [], exclude)
+const codeData = getCode(targetDir, { exclude })
+```
+
+### 禁用日志输出
+
+```typescript
+const codeData = getCode(targetDir, { log: false })
 ```
 
 ## 递归获取文件列表

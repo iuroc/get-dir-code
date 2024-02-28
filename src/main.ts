@@ -1,4 +1,4 @@
-import { getCode, getFiles } from './getCode'
+import { getCode } from './getCode'
 
 const targetDir = '../2.27.2'
 const data = getCode(targetDir, {
